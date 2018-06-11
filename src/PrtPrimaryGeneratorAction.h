@@ -19,6 +19,8 @@
 #include "PrtEvent.h"
 #include "PrtHit.h"
 
+#include "PrtLutNode.h"
+
 
 
 class G4ParticleGun;
@@ -36,6 +38,8 @@ public:
 
   void SetOptPhotonPolar();
   void SetOptPhotonPolar(G4double);
+    void ExtractPhotonSourcesPos();
+
 
 private:
   G4ParticleGun* fParticleGun;
@@ -47,6 +51,8 @@ private:
     TClonesArray *fLut_gen;
     TFile *fFile_gen;
     TTree *fTree_gen;
+
+
     
 };
 
