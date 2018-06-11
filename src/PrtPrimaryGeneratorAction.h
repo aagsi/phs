@@ -11,15 +11,8 @@
 #include "G4ParticleDefinition.hh"
 #include "globals.hh"
 
-
-#include "TString.h"
-#include "TFile.h"
+#include "TROOT.h"
 #include "TTree.h"
-
-#include "PrtEvent.h"
-#include "PrtHit.h"
-
-#include "PrtLutNode.h"
 
 
 
@@ -38,7 +31,7 @@ public:
 
   void SetOptPhotonPolar();
   void SetOptPhotonPolar(G4double);
-    void ExtractPhotonSourcesPos();
+
 
 
 private:
