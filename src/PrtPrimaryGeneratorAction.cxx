@@ -11,11 +11,14 @@
 
 #include "PrtManager.h"
 
+#include "PrtLutNode.h"
 
-
-
-#include "/Users/ahmed/dirc/prttools/prttools.C"
 #include "TROOT.h"
+#include "TMath.h"
+#include "TRotation.h"
+
+//#include "../../prttools/prttools.C"
+
 
 PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAction(),fParticleGun(0){
     G4int n_particle = 1;
@@ -35,10 +38,9 @@ PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAc
     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(1.,0.,0.));
     fParticleGun->SetParticleEnergy(7*MeV);
     
-     
     TString lutfile_gen = "/Users/ahmed/phs/lut/lut_opt_332_2018_cs_avr.root";
-    //TFile *fFile_gen = new TFile(lutfile_gen);
-    TFile *fFile_gen = TFile::Open(lutfile_gen,"read");
+    TFile *fFile_gen = new TFile(lutfile_gen);
+    //fFile_gen = TFile::Open(lutfile_gen,"read");
     fTree_gen=(TTree *) fFile_gen->Get("prtlut") ;
     fLut_gen = new TClonesArray("PrtLutNode");
     fTree_gen->SetBranchAddress("LUT",&fLut_gen);
@@ -52,6 +54,7 @@ PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAc
 PrtPrimaryGeneratorAction::~PrtPrimaryGeneratorAction(){
     delete fParticleGun;
     delete fGunMessenger;
+    //delete fFile_gen;
 }
 
 void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
@@ -60,7 +63,7 @@ void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
 
     
     Double_t pos_x,pos_y, pos_z;
-    for (Int_t mcpid_int=0; mcpid_int<12; mcpid_int++){//12
+    for (Int_t mcpid_int=0; mcpid_int<12; mcpid_int++){ //12
         for (Int_t pixid_int=1; pixid_int<65; pixid_int++){ // 65
             
             G4double x,y,z;
@@ -107,7 +110,9 @@ void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
             }
             if(PrtManager::Instance()->GetRunType() == 1){ // LUT generation
 
-
+                
+                
+                
                 Int_t sensorId_int = 100*mcpid_int + pixid_int ;
                 pos_x   = fLutNode_gen[sensorId_int]->GetDigiPos().X()-0.0;
                 pos_y   = fLutNode_gen[sensorId_int]->GetDigiPos().Y()-0.0;

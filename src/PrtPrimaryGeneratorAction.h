@@ -11,12 +11,15 @@
 #include "G4ParticleDefinition.hh"
 #include "globals.hh"
 
-#include "TROOT.h"
+
+#include "TString.h"
+#include "TFile.h"
 #include "TTree.h"
 
-#include "PrtLutNode.h"
-#include "TClonesArray.h"
+#include "PrtEvent.h"
+#include "PrtHit.h"
 
+#include "PrtLutNode.h"
 
 class G4ParticleGun;
 class G4Event;
@@ -34,8 +37,6 @@ public:
   void SetOptPhotonPolar();
   void SetOptPhotonPolar(G4double);
 
-
-
 private:
   G4ParticleGun* fParticleGun;
   G4ParticleDefinition* fParticleP;
@@ -46,9 +47,7 @@ private:
     TClonesArray *fLut_gen;
     //TFile *fFile_gen;
     TTree *fTree_gen;
-   PrtLutNode *fLutNode_gen[5000];
-
-
+    PrtLutNode *fLutNode_gen[5000];
     
 };
 
