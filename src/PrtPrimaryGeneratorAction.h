@@ -14,6 +14,8 @@
 #include "TROOT.h"
 #include "TTree.h"
 
+#include "PrtLutNode.h"
+#include "TClonesArray.h"
 
 
 class G4ParticleGun;
@@ -42,8 +44,9 @@ private:
     
 //
     TClonesArray *fLut_gen;
-    TFile *fFile_gen;
+    //TFile *fFile_gen;
     TTree *fTree_gen;
+   PrtLutNode *fLutNode_gen[5000];
 
 
     

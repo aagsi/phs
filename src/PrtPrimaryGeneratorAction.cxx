@@ -11,20 +11,11 @@
 
 #include "PrtManager.h"
 
-#include "PrtLutNode.h"
+
 
 
 #include "/Users/ahmed/dirc/prttools/prttools.C"
 #include "TROOT.h"
-
-//
-//
-//
-
-
-
-
-
 
 PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAction(),fParticleGun(0){
     G4int n_particle = 1;
@@ -43,6 +34,19 @@ PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAc
     fParticleGun->SetParticlePosition(G4ThreeVector(0.0*cm,0.0*cm,0.0*cm));
     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(1.,0.,0.));
     fParticleGun->SetParticleEnergy(7*MeV);
+    
+     
+    TString lutfile_gen = "/Users/ahmed/phs/lut/lut_opt_332_2018_cs_avr.root";
+    //TFile *fFile_gen = new TFile(lutfile_gen);
+    TFile *fFile_gen = TFile::Open(lutfile_gen,"read");
+    fTree_gen=(TTree *) fFile_gen->Get("prtlut") ;
+    fLut_gen = new TClonesArray("PrtLutNode");
+    fTree_gen->SetBranchAddress("LUT",&fLut_gen);
+    fTree_gen->GetEntry(0);
+    for(Int_t i=0; i<5000; i++) {
+        fLutNode_gen[i] = (PrtLutNode*) fLut_gen->At(i);
+    }
+    
 }
 
 PrtPrimaryGeneratorAction::~PrtPrimaryGeneratorAction(){
@@ -51,7 +55,7 @@ PrtPrimaryGeneratorAction::~PrtPrimaryGeneratorAction(){
 }
 
 void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
-    PrtLutNode *fLutNode_gen[5000];
+    
 
 
     
@@ -102,17 +106,7 @@ void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
                 fParticleGun->SetParticleMomentumDirection(vec);
             }
             if(PrtManager::Instance()->GetRunType() == 1){ // LUT generation
-                TString lutfile_gen = "/Users/ahmed/phs/lut/lut_opt_332_2018_cs_avr.root";
-                //fFile_gen = new TFile(lutfile_gen);
-                fFile_gen = TFile::Open(lutfile_gen,"read");
-                fTree_gen=(TTree *) fFile_gen->Get("prtlut") ;
-                fLut_gen = new TClonesArray("PrtLutNode");
-                
-                fTree_gen->SetBranchAddress("LUT",&fLut_gen);
-                fTree_gen->GetEntry(0);
-                for(Int_t i=0; i<5000; i++) {
-                    fLutNode_gen[i] = (PrtLutNode*) fLut_gen->At(i);
-                }
+
 
                 Int_t sensorId_int = 100*mcpid_int + pixid_int ;
                 pos_x   = fLutNode_gen[sensorId_int]->GetDigiPos().X()-0.0;
