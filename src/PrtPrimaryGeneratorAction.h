@@ -11,6 +11,16 @@
 #include "G4ParticleDefinition.hh"
 #include "globals.hh"
 
+
+#include "TString.h"
+#include "TFile.h"
+#include "TTree.h"
+
+#include "PrtEvent.h"
+#include "PrtHit.h"
+
+
+
 class G4ParticleGun;
 class G4Event;
 class PrtPrimaryGeneratorMessenger;
@@ -32,6 +42,12 @@ private:
   G4ParticleDefinition* fParticleP;
   G4ParticleDefinition* fParticlePi;
   PrtPrimaryGeneratorMessenger* fGunMessenger;
+    
+//
+    TClonesArray *fLut_gen;
+    TFile *fFile_gen;
+    TTree *fTree_gen;
+    
 };
 
 #endif
