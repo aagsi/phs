@@ -549,7 +549,7 @@ G4VPhysicalVolume* PrtDetectorConstruction::Construct(){
   }
   
   // Scaning plain
-  if(false){
+  if(true){
     G4double shift = PrtManager::Instance()->GetShift();
     if(shift < 935-fPrizm[1]){
       G4Box* gScan = new G4Box("gScan",350,100,0.01);
@@ -1155,7 +1155,7 @@ void PrtDetectorConstruction::ConstructSDandField(){
   PrtPixelSD* pixelSD = new PrtPixelSD("PixelSD", "PixelHitsCollection", 0);
   G4SDManager::GetSDMpointer()->AddNewDetector(pixelSD);
   SetSensitiveDetector("lPixel",pixelSD);
-  //SetSensitiveDetector("lScan",pixelSD);
+  SetSensitiveDetector("lScan",pixelSD);
 
   PrtPrizmSD* prizmSD = new PrtPrizmSD("PrizmSD", "PrizmHitsCollection", 0);
   G4SDManager::GetSDMpointer()->AddNewDetector(prizmSD);

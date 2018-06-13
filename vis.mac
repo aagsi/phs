@@ -186,3 +186,8 @@
 #export
 #/vis/open VRML2FILE
 #/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts false
+
+/vis/ASCIITree/verbose 16
+/vis/drawTree
+/vis/ASCIITree/set/outFile
+
