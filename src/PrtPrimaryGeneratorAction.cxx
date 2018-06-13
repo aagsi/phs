@@ -54,9 +54,7 @@ PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAc
     for(Int_t i=0; i<5000; i++) {
         fLutNode_gen[i] = (PrtLutNode*) fLut_gen->At(i);
     }
-    
 }
-
 PrtPrimaryGeneratorAction::~PrtPrimaryGeneratorAction(){
     delete fParticleGun;
     delete fGunMessenger;
@@ -67,6 +65,17 @@ void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
     // Double_t pos_x,pos_y, pos_z;
     // for (Int_t mcpid_int=0; mcpid_int<12; mcpid_int++){ //12
     //   for (Int_t pixid_int=1; pixid_int<65; pixid_int++){ // 65
+    
+    
+    G4ThreeVector vectPos_dirc(0,0,0);
+    auto store_dirc = G4PhysicalVolumeStore::GetInstance();
+    for (size_t i=0;i<store_dirc->size();i++){
+        //std::cout<<"name "<<(*store)[i]->GetName()<<std::endl;
+        if((*store_dirc)[i]->GetName()=="wDirc") { //  wPixel
+            auto d = (*store_dirc)[i]->GetTranslation(); // GetObjectTranslation  GetTranslation   GetFrameTranslation
+            vectPos_dirc = d;
+        }
+    }
     
     G4ThreeVector vectPos(0,0,0);
     int counter = 0;
@@ -79,6 +88,7 @@ void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
             auto t = (*store)[i]->GetTranslation(); // GetObjectTranslation  GetTranslation   GetFrameTranslation
             std::cout<<"############### MCP translation "<<"x "<<t.x()<<" y "<<t.y()<<" z "<<t.z()<<std::endl;
             G4LogicalVolume * temp = (*store)[i]->GetLogicalVolume(); // lMcp // GetMotherLogical
+            
             //std::cout<<"###### name "<<temp->GetName()<<std::endl;
             for (G4int j=0; j<temp->GetNoDaughters(); j++){
                 
@@ -86,44 +96,44 @@ void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
                 G4double radiatorL = PrtManager::Instance()->GetRadiatorL();
                 G4double radiatorW = PrtManager::Instance()->GetRadiatorW();
                 G4double radiatorH = PrtManager::Instance()->GetRadiatorH();
-//
-//                if(PrtManager::Instance()->GetMixPiP()){
-//                    if(PrtManager::Instance()->GetParticle()==211 || PrtManager::Instance()->GetParticle()==0){
-//                        fParticleGun->SetParticleDefinition(fParticleP);
-//                        PrtManager::Instance()->SetParticle(2212);
-//                    }else{
-//                        fParticleGun->SetParticleDefinition(fParticlePi);
-//                        PrtManager::Instance()->SetParticle(211);
-//                    }
-//                }
-//
-//                PrtManager::Instance()->AddEvent(PrtEvent());
-//
-//                if(PrtManager::Instance()->GetBeamDinsion() == -1){ // random momentum
-//                    fParticleGun->SetParticleMomentum(G4ThreeVector(0, 0, 4.0*GeV*G4UniformRand()));
-//                }
-//
-//                if(PrtManager::Instance()->GetBeamDinsion() > 0){ // smearing and divergence
-//                    G4double sigma = PrtManager::Instance()->GetBeamDinsion()*mm;
-//                    z = fParticleGun->GetParticlePosition().z();
-//
-//                    // // gaussian smearing
-//                    // x = G4RandGauss::shoot(0,sigma);
-//                    // y = G4RandGauss::shoot(0,sigma);
-//
-//                    // box smearing
-//                    x = (0.5-G4UniformRand())*sigma;
-//                    y = (0.5-G4UniformRand())*sigma;
-//
-//                    fParticleGun->SetParticlePosition(G4ThreeVector(x,y,z));
-//                    PrtManager::Instance()->Event()->SetPosition(TVector3(x,y,z));
-//                    G4double angle = -G4UniformRand()*M_PI;
-//                    G4ThreeVector vec(0,0,1);
-//                    vec.setTheta(G4RandGauss::shoot(0,0.0025)); //beam divergence
-//                    vec.setPhi(2*M_PI*G4UniformRand());
-//
-//                    fParticleGun->SetParticleMomentumDirection(vec);
-//                }
+                //
+                //                if(PrtManager::Instance()->GetMixPiP()){
+                //                    if(PrtManager::Instance()->GetParticle()==211 || PrtManager::Instance()->GetParticle()==0){
+                //                        fParticleGun->SetParticleDefinition(fParticleP);
+                //                        PrtManager::Instance()->SetParticle(2212);
+                //                    }else{
+                //                        fParticleGun->SetParticleDefinition(fParticlePi);
+                //                        PrtManager::Instance()->SetParticle(211);
+                //                    }
+                //                }
+                //
+                //                PrtManager::Instance()->AddEvent(PrtEvent());
+                //
+                //                if(PrtManager::Instance()->GetBeamDinsion() == -1){ // random momentum
+                //                    fParticleGun->SetParticleMomentum(G4ThreeVector(0, 0, 4.0*GeV*G4UniformRand()));
+                //                }
+                //
+                //                if(PrtManager::Instance()->GetBeamDinsion() > 0){ // smearing and divergence
+                //                    G4double sigma = PrtManager::Instance()->GetBeamDinsion()*mm;
+                //                    z = fParticleGun->GetParticlePosition().z();
+                //
+                //                    // // gaussian smearing
+                //                    // x = G4RandGauss::shoot(0,sigma);
+                //                    // y = G4RandGauss::shoot(0,sigma);
+                //
+                //                    // box smearing
+                //                    x = (0.5-G4UniformRand())*sigma;
+                //                    y = (0.5-G4UniformRand())*sigma;
+                //
+                //                    fParticleGun->SetParticlePosition(G4ThreeVector(x,y,z));
+                //                    PrtManager::Instance()->Event()->SetPosition(TVector3(x,y,z));
+                //                    G4double angle = -G4UniformRand()*M_PI;
+                //                    G4ThreeVector vec(0,0,1);
+                //                    vec.setTheta(G4RandGauss::shoot(0,0.0025)); //beam divergence
+                //                    vec.setPhi(2*M_PI*G4UniformRand());
+                //
+                //                    fParticleGun->SetParticleMomentumDirection(vec);
+                //                }
                 
                 
                 if(PrtManager::Instance()->GetRunType() == 0){ // LUT generation
@@ -133,16 +143,16 @@ void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
                     //                    pos_y   = fLutNode_gen[sensorId_int]->GetDigiPos().Y()-0.0;
                     //                    pos_z   = fLutNode_gen[sensorId_int]->GetDigiPos().Z()-0.6;
                     //                    fParticleGun->SetParticlePosition(G4ThreeVector(pos_x, pos_y, pos_z));
-
+                    
                     (*store)[j] = temp->GetDaughter(j);
                     std::cout<<"###### Pixel["<<j<<"]"<<(*store)[j]->GetName()<<std::endl;
                     auto k = (*store)[j]->GetTranslation(); // GetObjectTranslation GetTranslation // GetFrameTranslation
                     std::cout<<"###### Pixel translation "<<"x "<<k.x()<<" y "<<k.y()<<" z "<<k.z()<<std::endl;
-                    vectPos = t+k;
+                    vectPos = t+k+vectPos_dirc;
                     std::cout<<"###### All translations "<<"x "<<vectPos.x()<<" y "<<vectPos.y()<<" z "<<vectPos.z()<<std::endl;
                     
-                    fParticleGun->SetParticlePosition(G4ThreeVector(vectPos.x(), vectPos.y(), vectPos.z()));
-
+                    fParticleGun->SetParticlePosition(G4ThreeVector(vectPos.x(), vectPos.y(), vectPos.z()-0.0   ));
+                    
                     
                     
                     
