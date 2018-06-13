@@ -21,6 +21,11 @@
 
 #include "PrtLutNode.h"
 
+#include "G4ThreeVector.hh"
+
+
+
+
 class G4ParticleGun;
 class G4Event;
 class PrtPrimaryGeneratorMessenger;
@@ -48,6 +53,9 @@ private:
     //TFile *fFile_gen;
     TTree *fTree_gen;
     PrtLutNode *fLutNode_gen[5000];
+    
+    
+    G4ThreeVector vectPos_vector[768];
     
 };
 
