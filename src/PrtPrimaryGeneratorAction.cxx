@@ -40,16 +40,7 @@ PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAc
     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(1.,0.,0.));
     fParticleGun->SetParticleEnergy(7*MeV);
     
-    TString lutfile_gen = "/Users/ahmed/phs/lut/lut_opt_332_2018_cs_avr.root";
-    TFile *fFile_gen = new TFile(lutfile_gen);
-    //fFile_gen = TFile::Open(lutfile_gen,"read");
-    fTree_gen=(TTree *) fFile_gen->Get("prtlut") ;
-    fLut_gen = new TClonesArray("PrtLutNode");
-    fTree_gen->SetBranchAddress("LUT",&fLut_gen);
-    fTree_gen->GetEntry(0);
-    for(Int_t i=0; i<5000; i++) {
-        fLutNode_gen[i] = (PrtLutNode*) fLut_gen->At(i);
-    }
+
     
     G4ThreeVector vectPos(0,0,0);
     int counter = 0;
@@ -104,17 +95,15 @@ void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
     G4double radiatorL = PrtManager::Instance()->GetRadiatorL();
     G4double radiatorW = PrtManager::Instance()->GetRadiatorW();
     G4double radiatorH = PrtManager::Instance()->GetRadiatorH();
-    for ( auto n=0 ; n<20 ; ++n ){
+    for ( auto n=0 ; n<768 ; ++n ){
         if(PrtManager::Instance()->GetRunType() == 0){ // LUT generation
             
-            
             std::cout<<"###### Pixel number=  "<<n<<" vectPos_vector[n] "<<vectPos_vector[n]<<std::endl;
-            
-            fParticleGun->SetParticlePosition(G4ThreeVector(vectPos_vector[n].x(),vectPos_vector[n].y(), vectPos_vector[n].z()-10  ));
+            fParticleGun->SetParticlePosition(G4ThreeVector(vectPos_vector[n].x(),vectPos_vector[n].y(), vectPos_vector[n].z()  ));
             G4double angle = -G4UniformRand()*M_PI;
             G4ThreeVector vec(0,0,1);
-            //vec.setTheta(acos(G4UniformRand()));
-            //vec.setPhi(2*M_PI*G4UniformRand());
+            vec.setTheta(acos(G4UniformRand()));
+            vec.setPhi(2*M_PI*G4UniformRand());
             //vec.rotateY(-M_PI/2.);
             fParticleGun->SetParticleMomentumDirection(-vec);
         }

@@ -48,11 +48,7 @@ private:
   G4ParticleDefinition* fParticlePi;
   PrtPrimaryGeneratorMessenger* fGunMessenger;
     
-//
-    TClonesArray *fLut_gen;
-    //TFile *fFile_gen;
-    TTree *fTree_gen;
-    PrtLutNode *fLutNode_gen[5000];
+
     
     
     G4ThreeVector vectPos_vector[768];
