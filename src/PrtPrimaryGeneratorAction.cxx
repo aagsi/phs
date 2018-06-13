@@ -59,7 +59,7 @@ PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAc
                 if((*store)[jj]->GetName()=="wMcp") { //  MCP Physical volum
                     //                    if (counter == 1) break;
                     //                    if (counter2 == 20) break;
-                    std::cout<<"############### MCP["<<counter<<"]"<<(*store)[jj]->GetName()<<std::endl;
+                    //std::cout<<"############### MCP["<<counter<<"]"<<(*store)[jj]->GetName()<<std::endl;
                     auto t = (*store)[jj]->GetTranslation(); // options GetObjectTranslation  GetTranslation   GetFrameTranslation
                     //std::cout<<"############### MCP translation "<<"x "<<t.x()<<" y "<<t.y()<<" z "<<t.z()<<std::endl;
                     G4LogicalVolume * temp = (*store)[jj]->GetLogicalVolume();
@@ -71,11 +71,12 @@ PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAc
                         auto k = (*store)[jjj]->GetTranslation();
                         //std::cout<<"###### Pixel translation "<<"x "<<k.x()<<" y "<<k.y()<<" z "<<k.z()<<std::endl;
                         vectPos = t+k+d;
-                        std::cout<<"###### Pixel["<<jjj<<"]"<<(*store)[jjj]->GetName()<<"translations= "<< vectPos<<std::endl;
+                        //std::cout<<"###### Pixel["<<jjj<<"]"<<(*store)[jjj]->GetName()<<"translations= "<< vectPos<<std::endl;
                         vectPos_vector[counter2].setX(vectPos.x());
                         vectPos_vector[counter2].setY(vectPos.y());
                         vectPos_vector[counter2].setZ(vectPos.z());
                         ++counter2;
+                        //std::cout<<"######  counter2= "<<counter2<<std::endl;
                     } // loop over MCP Doughters "pixels"
                     ++counter;
                 } // if MCP
@@ -91,14 +92,10 @@ PrtPrimaryGeneratorAction::~PrtPrimaryGeneratorAction(){
     
 }
 void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
-    G4double x,y,z;
-    G4double radiatorL = PrtManager::Instance()->GetRadiatorL();
-    G4double radiatorW = PrtManager::Instance()->GetRadiatorW();
-    G4double radiatorH = PrtManager::Instance()->GetRadiatorH();
-    for ( auto n=0 ; n<768 ; ++n ){
+    for ( auto n=0 ; n<768 ; ++n ){ // 768
         if(PrtManager::Instance()->GetRunType() == 0){ // LUT generation
             
-            std::cout<<"###### Pixel number=  "<<n<<" vectPos_vector[n] "<<vectPos_vector[n]<<std::endl;
+            //std::cout<<"###### Pixel number=  "<<n<<" vectPos_vector[n] "<<vectPos_vector[n]<<std::endl;
             fParticleGun->SetParticlePosition(G4ThreeVector(vectPos_vector[n].x(),vectPos_vector[n].y(), vectPos_vector[n].z()  ));
             G4double angle = -G4UniformRand()*M_PI;
             G4ThreeVector vec(0,0,1);
