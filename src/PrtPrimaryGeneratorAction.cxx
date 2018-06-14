@@ -46,6 +46,8 @@ PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAc
     int counter = 0;
     int counter2 = 0;
     auto store = G4PhysicalVolumeStore::GetInstance();
+    
+    G4VPhysicalVolume * one;
     for (size_t i=0;i<store->size();i++){
         //std::cout<<"name "<<(*store)[i]->GetName()<<std::endl;
         if((*store)[i]->GetName()=="wDirc") { //  Dirc Physical volum
@@ -55,23 +57,23 @@ PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAc
             G4LogicalVolume * temp_0 = (*store)[i]->GetLogicalVolume(); //opttions  GetLogicalVolume , GetMotherLogical
             for (G4int jj=0; jj<temp_0->GetNoDaughters(); jj++){
                 
-                (*store)[jj] = temp_0->GetDaughter(jj);
-                if((*store)[jj]->GetName()=="wMcp") { //  MCP Physical volum
+                one = temp_0->GetDaughter(jj);
+                if(one->GetName()=="wMcp") { //  MCP Physical volum
                     //                    if (counter == 1) break;
                     //                    if (counter2 == 20) break;
-                    //std::cout<<"############### MCP["<<counter<<"]"<<(*store)[jj]->GetName()<<std::endl;
-                    auto t = (*store)[jj]->GetTranslation(); // options GetObjectTranslation  GetTranslation   GetFrameTranslation
+                    //std::cout<<"############### MCP["<<counter<<"]"<<one->GetName()<<std::endl;
+                    auto t = one->GetTranslation(); // options GetObjectTranslation  GetTranslation   GetFrameTranslation
                     //std::cout<<"############### MCP translation "<<"x "<<t.x()<<" y "<<t.y()<<" z "<<t.z()<<std::endl;
-                    G4LogicalVolume * temp = (*store)[jj]->GetLogicalVolume();
+                    G4LogicalVolume * temp = one->GetLogicalVolume();
                     //std::cout<<"###### name "<<temp->GetName()<<std::endl;
                     for (G4int jjj=0; jjj<temp->GetNoDaughters(); jjj++){ // Loop over pixels
                         //                        if (counter2 == 20) break;
-                        (*store)[jjj] = temp->GetDaughter(jjj);
+                        one = temp->GetDaughter(jjj); // here
                         
-                        auto k = (*store)[jjj]->GetTranslation();
+                        auto k = one->GetTranslation(); // here
                         //std::cout<<"###### Pixel translation "<<"x "<<k.x()<<" y "<<k.y()<<" z "<<k.z()<<std::endl;
                         vectPos = t+k+d;
-                        //std::cout<<"###### Pixel["<<jjj<<"]"<<(*store)[jjj]->GetName()<<"translations= "<< vectPos<<std::endl;
+                        //std::cout<<"###### Pixel["<<jjj<<"]"<<one->GetName()<<"translations= "<< vectPos<<std::endl; // here
                         vectPos_vector[counter2].setX(vectPos.x());
                         vectPos_vector[counter2].setY(vectPos.y());
                         vectPos_vector[counter2].setZ(vectPos.z());
@@ -93,10 +95,11 @@ PrtPrimaryGeneratorAction::~PrtPrimaryGeneratorAction(){
 }
 void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
     for ( auto n=0 ; n<768 ; ++n ){ // 768
+        PrtManager::Instance()->AddEvent(PrtEvent());
         if(PrtManager::Instance()->GetRunType() == 0){ // LUT generation
             
             //std::cout<<"###### Pixel number=  "<<n<<" vectPos_vector[n] "<<vectPos_vector[n]<<std::endl;
-            fParticleGun->SetParticlePosition(G4ThreeVector(vectPos_vector[n].x(),vectPos_vector[n].y(), vectPos_vector[n].z()  ));
+            fParticleGun->SetParticlePosition(G4ThreeVector(vectPos_vector[n].x(),vectPos_vector[n].y(), vectPos_vector[n].z()-0.6  ));
             G4double angle = -G4UniformRand()*M_PI;
             G4ThreeVector vec(0,0,1);
             vec.setTheta(acos(G4UniformRand()));
