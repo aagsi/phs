@@ -1154,7 +1154,7 @@ void PrtDetectorConstruction::ConstructSDandField(){
   // Sensitive detectors  
   PrtPixelSD* pixelSD = new PrtPixelSD("PixelSD", "PixelHitsCollection", 0);
   G4SDManager::GetSDMpointer()->AddNewDetector(pixelSD);
-  SetSensitiveDetector("lPixel",pixelSD);
+  //SetSensitiveDetector("lPixel",pixelSD);
   SetSensitiveDetector("lScan",pixelSD);
 
   PrtPrizmSD* prizmSD = new PrtPrizmSD("PrizmSD", "PrizmHitsCollection", 0);

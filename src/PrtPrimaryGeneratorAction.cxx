@@ -94,7 +94,9 @@ PrtPrimaryGeneratorAction::~PrtPrimaryGeneratorAction(){
     
 }
 void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
+    //int counter3= 0 ;
     for ( auto n=0 ; n<768 ; ++n ){ // 768
+        //if (counter3 == 1) break;
         PrtManager::Instance()->AddEvent(PrtEvent());
         if(PrtManager::Instance()->GetRunType() == 0){ // LUT generation
             
@@ -114,7 +116,7 @@ void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
         G4ThreeVector dir = fParticleGun->GetParticleMomentumDirection();
         dir *= fParticleGun->GetParticleMomentum();
         PrtManager::Instance()->SetMomentum(TVector3(dir.x(),dir.y(),dir.z()));
-        
+       // ++counter3;
     } // array vector loop
     
 } // promary particle generator loop
