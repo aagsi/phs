@@ -2,26 +2,19 @@
 #include "PrtPrimaryGeneratorMessenger.h"
 
 #include "Randomize.hh"
-
 #include "G4Event.hh"
 #include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"
 #include "G4SystemOfUnits.hh"
 #include "globals.hh"
-
 #include "PrtManager.h"
-
 #include "PrtLutNode.h"
-
 #include "TROOT.h"
 #include "TMath.h"
 #include "TRotation.h"
-
 #include "G4PhysicalVolumeStore.hh"
-#include "G4LogicalVolumeStore.hh"
-#include "G4Box.hh"
+#include "G4ThreeVector.hh"
 
-//#include "../../prttools/prttools.C"
 PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAction(),fParticleGun(0){
     G4int n_particle = 1;
     fParticleGun = new G4ParticleGun(n_particle);
@@ -40,84 +33,53 @@ PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAc
     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(1.,0.,0.));
     fParticleGun->SetParticleEnergy(7*MeV);
     
-
-    
-    G4ThreeVector vectPos(0,0,0);
-    int counter = 0;
-    int counter2 = 0;
+    int mid=-1, pid=-1;
+    G4ThreeVector vdirc,vmcp[12],vpix[64];
     auto store = G4PhysicalVolumeStore::GetInstance();
-    
-    G4VPhysicalVolume * one;
     for (size_t i=0;i<store->size();i++){
-        //std::cout<<"name "<<(*store)[i]->GetName()<<std::endl;
-        if((*store)[i]->GetName()=="wDirc") { //  Dirc Physical volum
-            //            if (counter == 1) break;
-            //            if (counter2 == 20) break;
-            auto d = (*store)[i]->GetTranslation(); // GetObjectTranslation  GetTranslation   GetFrameTranslation
-            G4LogicalVolume * temp_0 = (*store)[i]->GetLogicalVolume(); //opttions  GetLogicalVolume , GetMotherLogical
-            for (G4int jj=0; jj<temp_0->GetNoDaughters(); jj++){
-                
-                one = temp_0->GetDaughter(jj);
-                if(one->GetName()=="wMcp") { //  MCP Physical volum
-                    //                    if (counter == 1) break;
-                    //                    if (counter2 == 20) break;
-                    //std::cout<<"############### MCP["<<counter<<"]"<<one->GetName()<<std::endl;
-                    auto t = one->GetTranslation(); // options GetObjectTranslation  GetTranslation   GetFrameTranslation
-                    //std::cout<<"############### MCP translation "<<"x "<<t.x()<<" y "<<t.y()<<" z "<<t.z()<<std::endl;
-                    G4LogicalVolume * temp = one->GetLogicalVolume();
-                    //std::cout<<"###### name "<<temp->GetName()<<std::endl;
-                    for (G4int jjj=0; jjj<temp->GetNoDaughters(); jjj++){ // Loop over pixels
-                        //                        if (counter2 == 20) break;
-                        one = temp->GetDaughter(jjj); // here
-                        
-                        auto k = one->GetTranslation(); // here
-                        //std::cout<<"###### Pixel translation "<<"x "<<k.x()<<" y "<<k.y()<<" z "<<k.z()<<std::endl;
-                        vectPos = t+k+d;
-                        //std::cout<<"###### Pixel["<<jjj<<"]"<<one->GetName()<<"translations= "<< vectPos<<std::endl; // here
-                        vectPos_vector[counter2].setX(vectPos.x());
-                        vectPos_vector[counter2].setY(vectPos.y());
-                        vectPos_vector[counter2].setZ(vectPos.z());
-                        ++counter2;
-                        //std::cout<<"######  counter2= "<<counter2<<std::endl;
-                    } // loop over MCP Doughters "pixels"
-                    ++counter;
-                } // if MCP
-            } // loop over DIRC Doughter
-        } // if DIRC
-        
-    } // loop over all Geometry
-    
+        if((*store)[i]->GetName()=="wDirc")  vdirc =(*store)[i]->GetTranslation();
+        if((*store)[i]->GetName()=="wMcp")   vmcp[++mid] =(*store)[i]->GetTranslation();
+        if((*store)[i]->GetName()=="wPixel") vpix[++pid] =(*store)[i]->GetTranslation();
+    }
+    //std::cout<<"############ m["<<mid<<"]" <<" pid = "<< pid<<std::endl; // here
+    G4ThreeVector vpixminus[64];
+    for(auto m=0; m<=mid; m++){
+        for(auto p=0; p<=pid; p++){
+            vpixminus[p]= G4ThreeVector(vpix[p].x(),vpix[p].y(), vpix[p].z()- 0.6);
+            //std::cout<<"###### m["<<m<<"]" <<" p = "<< p<<std::endl; // here
+            gpix[m][p] =vdirc+(vmcp[m]+vpixminus[p]).rotateY(PrtManager::Instance()->GetAngle()*deg-180*deg);
+        }
+    }
 }
 PrtPrimaryGeneratorAction::~PrtPrimaryGeneratorAction(){
     delete fParticleGun;
     delete fGunMessenger;
-    
 }
 void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
-    //int counter3= 0 ;
-    for ( auto n=0 ; n<768 ; ++n ){ // 768
-        //if (counter3 == 1) break;
-        PrtManager::Instance()->AddEvent(PrtEvent());
-        if(PrtManager::Instance()->GetRunType() == 0){ // LUT generation
-            
-            //std::cout<<"###### Pixel number=  "<<n<<" vectPos_vector[n] "<<vectPos_vector[n]<<std::endl;
-            fParticleGun->SetParticlePosition(G4ThreeVector(vectPos_vector[n].x(),vectPos_vector[n].y(), vectPos_vector[n].z()-0.6  ));
-            G4double angle = -G4UniformRand()*M_PI;
-            G4ThreeVector vec(0,0,1);
-            vec.setTheta(acos(G4UniformRand()));
-            vec.setPhi(2*M_PI*G4UniformRand());
-            //vec.rotateY(-M_PI/2.);
-            fParticleGun->SetParticleMomentumDirection(-vec);
-        }
-
-        
-        fParticleGun->GeneratePrimaryVertex(anEvent);
-        
-        G4ThreeVector dir = fParticleGun->GetParticleMomentumDirection();
-        dir *= fParticleGun->GetParticleMomentum();
-        PrtManager::Instance()->SetMomentum(TVector3(dir.x(),dir.y(),dir.z()));
-       // ++counter3;
-    } // array vector loop
+    int counter3= 0 ;
+    for ( auto m=0 ; m<12 ; ++m ){
+        for ( auto p=0 ; p<64 ; ++p ){
+            //if (counter3 == 63) break;
+            PrtManager::Instance()->AddEvent(PrtEvent());
+            if(PrtManager::Instance()->GetRunType() == 0){ // Phs generation
+                ///////////////
+                // pos dir ////
+                ///////////////
+                fParticleGun->SetParticlePosition(gpix[m][p]);
+                ///////////////
+                // mom dir ////
+                ///////////////
+                G4double angle = -G4UniformRand()*M_PI;
+                G4ThreeVector vec(0,0,1);
+                vec.setTheta(acos(G4UniformRand()));
+                vec.setPhi(2*M_PI*G4UniformRand());
+                vec.rotateY(PrtManager::Instance()->GetAngle()*deg-180*deg);
+                fParticleGun->SetParticleMomentumDirection(-vec);
+            }
+            fParticleGun->GeneratePrimaryVertex(anEvent);
+            ++counter3;
+        } // pix loop
+    } // pmt loop
     
 } // promary particle generator loop
 void PrtPrimaryGeneratorAction::SetOptPhotonPolar(){

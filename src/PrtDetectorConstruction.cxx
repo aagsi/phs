@@ -554,7 +554,8 @@ G4VPhysicalVolume* PrtDetectorConstruction::Construct(){
     if(shift < 935-fPrizm[1]){
       G4Box* gScan = new G4Box("gScan",350,100,0.01);
       G4LogicalVolume *lScan = new G4LogicalVolume(gScan, BarMaterial ,"lScan",0,0,0);
-      new G4PVPlacement(0,G4ThreeVector(0,0,shift),lScan,"wScan",lBar,false,0);
+      //new G4PVPlacement(0,G4ThreeVector(0,0,shift),lScan,"wScan",lBar,false,0);
+      new G4PVPlacement(0,G4ThreeVector(0,0,fBar[2]/2.-PrtManager::Instance()->GetBeamZ()),lScan,"wScan",lBar,false,0);
     }else{
       G4Box* gScan = new G4Box("gScan",350,0.01,100);
       G4LogicalVolume *lScan = new G4LogicalVolume(gScan, BarMaterial ,"lScan",0,0,0);
