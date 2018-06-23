@@ -23,10 +23,6 @@
 #include "G4ThreeVector.hh"
 
 
-
-
-
-
 class G4ParticleGun;
 class G4Event;
 class PrtPrimaryGeneratorMessenger;
@@ -43,7 +39,7 @@ public:
     void SetOptPhotonPolar();
     void SetOptPhotonPolar(G4double);
     
-    
+    G4ThreeVector vpixminus[64];
     
     
 private:

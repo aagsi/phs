@@ -42,11 +42,12 @@ PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAc
         if((*store)[i]->GetName()=="wPixel") vpix[++pid] =(*store)[i]->GetTranslation();
     }
     //std::cout<<"############ m["<<mid<<"]" <<" pid = "<< pid<<std::endl; // here
-    G4ThreeVector vpixminus[64];
+    
     for(auto m=0; m<=mid; m++){
         for(auto p=0; p<=pid; p++){
             vpixminus[p]= G4ThreeVector(vpix[p].x(),vpix[p].y(), vpix[p].z()- 0.6);
-            //std::cout<<"###### m["<<m<<"]" <<" p = "<< p<<std::endl; // here
+            //vpixminus[p]= G4ThreeVector(vpix[p].x(),vpix[p].y(), vpix[p].z()- 0.6);
+            //std::cout<<"###### m["<<m<<"]" <<" vpixminus[p] = "<< vpixminus[p]<<std::endl; // here
             gpix[m][p] =vdirc+(vmcp[m]+vpixminus[p]).rotateY(PrtManager::Instance()->GetAngle()*deg-180*deg);
         }
     }

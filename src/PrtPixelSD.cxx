@@ -13,6 +13,21 @@
 #include "PrtRunAction.h"
 #include "PrtManager.h"
 
+#include "G4TransportationManager.hh"
+#include "G4Navigator.hh"
+
+#include "PrtPrimaryGeneratorAction.h"
+
+#include "globals.hh"
+
+#include "TROOT.h"
+#include "TMath.h"
+#include "TRotation.h"
+#include "G4PhysicalVolumeStore.hh"
+#include "G4ThreeVector.hh"
+#include "G4INCLThreeVector.hh"
+#include "G4ThreeVector.hh"
+
 PrtPixelSD::PrtPixelSD( const G4String& name, 
                        const G4String& hitsCollectionName,
                        G4int nofCells)
@@ -248,6 +263,67 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     }
     
     //std::cout<<"Number of reflections: "<<refl <<std::endl;
+    
+    
+    G4ThreeVector pp =G4ThreeVector(0,0,0.6).rotateY(PrtManager::Instance()->GetAngle()*CLHEP::deg-180*CLHEP::deg);
+    G4ThreeVector mm =G4ThreeVector(0,0,0.3).rotateY(PrtManager::Instance()->GetAngle()*CLHEP::deg-180*CLHEP::deg);
+    
+
+    G4ThreeVector myPoint = G4ThreeVector (g4pos.x(), g4pos.y(), g4pos.z() ) + pp ;
+    G4Navigator* theNavigator = G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
+    G4VPhysicalVolume* myVolume = theNavigator->LocateGlobalPointAndSetup(myPoint);
+    
+    
+    G4ThreeVector myPoint2 = G4ThreeVector (g4pos.x(), g4pos.y(), g4pos.z()) + mm;
+    G4Navigator* theNavigator2= G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
+    G4VPhysicalVolume* myVolume2 = theNavigator->LocateGlobalPointAndSetup(myPoint2);
+    
+    
+    
+
+    G4StepPoint* preStepPoint = step->GetPreStepPoint();
+    G4TouchableHandle theTouchable = preStepPoint->GetTouchableHandle();
+    G4int copyNo = theTouchable->GetCopyNumber();
+    G4int motherCopyNo = theTouchable->GetCopyNumber(1);
+
+    
+    PrtPrimaryGeneratorAction obj ;
+    G4ThreeVector test_v = obj.vpixminus[1];
+    //std::cout<<"#########  #################  ############  test_v is : "<<test_v.x() <<std::endl;
+    std::cout<<"#########  #################  ############  myVolume name is : "<<myVolume->GetName()<< "  num " << myVolume->GetCopyNo()<<std::endl;
+    std::cout<<"#########  #################  ############  myVolume name is : "<<myVolume2->GetName()<< "  num " << myVolume2->GetCopyNo()<<std::endl;
+    //std::cout<<"#########  #################  ############  my Mother Volume name is : "<<motherVolume->GetName()<< "  num " << motherVolume->GetCopyNo()<<std::endl;
+    
+    //std::cout<<"#########  #################  ############  copyNo is : "<<copyNo<< " motherCopyNo: "<< motherCopyNo<< std::endl;
+    
+//
+//    G4StepPoint* point1 = step->GetPreStepPoint();
+//    G4StepPoint* point2 = step->GetPostStepPoint();
+//
+//
+//    G4ThreeVector pos1 = point1->GetPosition();
+//    G4ThreeVector pos2 = point2->GetPosition();
+//
+//    G4TouchableHandle touch1 = point2->GetTouchableHandle();
+//    G4VPhysicalVolume* volume = touch1->GetVolume();
+//    G4String name_test = volume->GetName();
+//    G4int copyNumber = touch1->GetCopyNumber();
+//    G4VPhysicalVolume* mother = touch1->GetVolume(1);
+//    G4int copyNumber2 = touch1->GetCopyNumber(1);
+//
+//
+//    //std::cout<<"#########  #################  ############  name_test is : "<<name_test<< " copyNumber: "<< copyNumber<< " mother name: "<< mother->GetName()<< "  num:  "<<copyNumber2<< std::endl;
+//
+    
+
+
+    
+    
+    
+
+    
+
+
     
     PrtHit hit;
     Int_t mcpid=touchable->GetReplicaNumber(1);
