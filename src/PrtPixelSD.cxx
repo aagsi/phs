@@ -293,8 +293,8 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     std::cout<<"#########  #################  ############  myVolume name is : "<<myVolume->GetName()<< "  num " << myVolume->GetCopyNo()<<std::endl;
     std::cout<<"#########  #################  ############  myVolume name is : "<<myVolume2->GetName()<< "  num " << myVolume2->GetCopyNo()<<std::endl;
     //std::cout<<"#########  #################  ############  my Mother Volume name is : "<<motherVolume->GetName()<< "  num " << motherVolume->GetCopyNo()<<std::endl;
-    
-    //std::cout<<"#########  #################  ############  copyNo is : "<<copyNo<< " motherCopyNo: "<< motherCopyNo<< std::endl;
+    G4ThreeVector globalpos2 = step->GetPostStepPoint()->GetPosition();
+    std::cout<<"#########  #################  ############  globalPos is : " << globalpos2 << std::endl;
     
 //
 //    G4StepPoint* point1 = step->GetPreStepPoint();
@@ -314,13 +314,6 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
 //
 //    //std::cout<<"#########  #################  ############  name_test is : "<<name_test<< " copyNumber: "<< copyNumber<< " mother name: "<< mother->GetName()<< "  num:  "<<copyNumber2<< std::endl;
 //
-    
-
-
-    
-    
-    
-
     
 
 

@@ -50,6 +50,8 @@ private:
   G4LogicalVolume* lPixel;
   G4LogicalVolume* lPrizmC;
   G4LogicalVolume* lCover;
+    
+    G4LogicalVolume* lScan;
 
   G4VPhysicalVolume* wBar;
   G4VPhysicalVolume* wMirrorGap;
@@ -84,6 +86,7 @@ private:
   
   G4double fRotAngle;
   G4RotationMatrix *fPrtRot;
+  G4RotationMatrix *flscanRot;
   PrtDetectorConstructionMessenger* fGeomMessenger;
   G4double *fQuantumEfficiency;
 };
