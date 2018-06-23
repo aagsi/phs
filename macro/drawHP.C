@@ -15,6 +15,9 @@ TH1F*  hist_dir_x = new TH1F("hist_dir_x",";dir x component ;entries [#]", 100,-
 TH1F*  hist_dir_y = new TH1F("hist_dir_y",";dir y component ;entries [#]", 100,-1.0,1.0);
 TH1F*  hist_dir_z = new TH1F("hist_dir_z",";dir z component;entries [#]", 200,-1.5,1.5);
 
+TH1F*  hist_pix = new TH1F("hist_pix",";oix num;entries [#]",100 ,0,100);
+TH1F*  hist_mcp = new TH1F("hist_mcp",";oix num;entries [#]",100 ,0,100);
+
 //TGraph2D *graph_pos = new TGraph2D();
 TGraph *graph_pos = new TGraph();
 TGraph *graph_dir = new TGraph();
@@ -67,7 +70,12 @@ void drawHP(TString infile="../build/test1.root"){
             hist_dir_y->Fill(dir_y);
             hist_dir_z->Fill(dir_z);
             
+            
+            hist_pix->Fill(pixid);
+            hist_mcp->Fill(mcpid);
+            
             ++counter;
+            prt_hdigi[mcpid]->Fill(pixid%8, pixid/8);
         }
     }
     
@@ -99,8 +107,25 @@ void drawHP(TString infile="../build/test1.root"){
     prt_canvasAdd("r_dir_z",800,400);
     hist_dir_z->Draw();
     
+    
+    prt_canvasAdd("r_pix_num",800,400);
+    hist_pix->Draw();
+    
+    
+    prt_canvasAdd("r_mcp_num",800,400);
+    hist_mcp->Draw();
+    
+    
+    
     prt_canvasSave(2,0);
     prt_canvasDel("*");
+    
+    
+    prt_drawDigi("m,p,v\n",2017,0,0);
+    prt_cdigi->SetName(Form("hp_dataProtonS332_%d_%2.1f",(Int_t)prt_theta,prt_phi));
+    prt_canvasAdd(prt_cdigi);
+    //prt_cdigi_palette->Draw();
+    //prt_canvasSave(1,0);
     
     
 }

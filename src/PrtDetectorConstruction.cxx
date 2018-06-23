@@ -559,7 +559,7 @@ G4VPhysicalVolume* PrtDetectorConstruction::Construct(){
     
     if(true){
         G4double shift = PrtManager::Instance()->GetShift();
-        if(shift < 935-fPrizm[1]){
+        
             
 //            G4Box* gScan = new G4Box("gScan",800,100,0.01);
 //            lScan = new G4LogicalVolume(gScan, Vacum2 ,"lScan",0,0,0);
@@ -568,7 +568,7 @@ G4VPhysicalVolume* PrtDetectorConstruction::Construct(){
             
             
             
-            G4Box* gScan = new G4Box("gScan2",fBar[0]/2. ,fBar[1]/2., 0.00000001);
+            G4Box* gScan = new G4Box("gScan2",fBar[0]/2. ,fBar[1]/2., 0.00000001);// 0.00000001
             lScan = new G4LogicalVolume(gScan, BarMaterial ,"lScan",0,0,0);
             new G4PVPlacement(0,G4ThreeVector(0,0,fBar[2]/2.-PrtManager::Instance()->GetBeamZ()),lScan,"wScan",lBar,false,0);
 
@@ -579,11 +579,7 @@ G4VPhysicalVolume* PrtDetectorConstruction::Construct(){
             //new G4PVPlacement(0,G4ThreeVector(0,0,fBar[2]/2.-PrtManager::Instance()->GetBeamZ()),lScan2,"wScan2",lBar,false,0);
             
             
-        }else{
-            G4Box* gScan = new G4Box("gScan",350,0.01,100);
-            lScan = new G4LogicalVolume(gScan, BarMaterial ,"lScan",0,0,0);
-            new G4PVPlacement(0,G4ThreeVector(0,935-shift-150,0),lScan,"wScan",lPrizm,false,0);
-        }
+
     }
     
     G4Box* gMcp;
