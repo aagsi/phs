@@ -119,7 +119,7 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     
     
     
-    //G4double globalTime    = track->GetGlobalTime();
+    G4double globalTime    = track->GetGlobalTime();
     
     G4ThreeVector pp =G4ThreeVector(0,0,0.6).rotateY(PrtManager::Instance()->GetAngle()*CLHEP::deg-180*CLHEP::deg); // 0.6
     G4ThreeVector mm =G4ThreeVector(0,0,0.3).rotateY(PrtManager::Instance()->GetAngle()*CLHEP::deg-180*CLHEP::deg); // 0.3
@@ -144,7 +144,8 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     TVector3 mom_phs_v(mom_phs.x(),mom_phs.y(),mom_phs.z());
     
     
-    TVector3 globalPos(globalPos.x(),globalPos.y(),globalPos.z());
+    //TVector3 globalPos(globalPos.x(),globalPos.y(),globalPos.z());
+    TVector3 globalPos(inPrismpos.x(),inPrismpos.y(),inPrismpos.z());
 
     G4bool Reflected= true;
     if(mom_phs.x()> 0) Reflected = false;
@@ -181,7 +182,7 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     
     //G4double time = step->GetPreStepPoint()->GetLocalTime(); // comminted
     //if(PrtManager::Instance()->GetRunType()==0) time = G4RandGauss::shoot(time,PrtManager::Instance()->GetTimeRes()); //resolution [ns] // comminted
-    hit.SetLeadTime(time);
+    hit.SetLeadTime(globalTime); //
     Double_t wavelength = 1.2398/(track->GetMomentum().mag()*1E6)*1000;
     hit.SetTotTime(wavelength); //set photon wavelength
     // time since event created

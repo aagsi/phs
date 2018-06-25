@@ -8,8 +8,8 @@
 
 
 TH1F*  hist_time = new TH1F("hist_time",";measured time [ns];entries [#]",   500,0,50);
-TH2F*  hist_xy = new TH2F("hist_xy",";calculated time [ns];measured time [ns]", 400,-20,20, 200,-12,12);
-TH1F*  hist_z = new TH1F("hist_z",";measured time [ns];entries [#]",   1000,-1200,1200);
+TH2F*  hist_xy = new TH2F("hist_xy",";pos y [mm];pos x [mm]", 400,-20,20, 200,-12,12);
+TH1F*  hist_z = new TH1F("hist_z",";pos z [mm];entries [#]",   1000,-1200,1200);
 
 TH1F*  hist_dir_x = new TH1F("hist_dir_x",";dir x component ;entries [#]", 100,-1.0,1.0);
 TH1F*  hist_dir_y = new TH1F("hist_dir_y",";dir y component ;entries [#]", 100,-1.0,1.0);
