@@ -94,12 +94,12 @@ void drawHP(TString infile="../build/test1.root"){
     hist_xy->Draw("colz");
     prt_canvasAdd("r_hist_pos_z",800,400);
     hist_z->Draw();
-    prt_canvasAdd("r_graph_pos_xy",800,400);
-    graph_pos->Draw();
-    
-    prt_canvasAdd("r_graph_dir_xy",800,400);
-    graph_dir->Draw();
-    
+    //    prt_canvasAdd("r_graph_pos_xy",800,400);
+    //    graph_pos->Draw();
+    //
+    //    prt_canvasAdd("r_graph_dir_xy",800,400);
+    //    graph_dir->Draw();
+
     prt_canvasAdd("r_dir_x",800,400);
     hist_dir_x->Draw();
     prt_canvasAdd("r_dir_y",800,400);

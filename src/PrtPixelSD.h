@@ -10,9 +10,12 @@
 #include "G4VSensitiveDetector.hh"
 
 #include <vector>
+#include "G4Navigator.hh"
 
 class G4Step;
 class G4HCofThisEvent;
+
+ #include "globals.hh"
 
 /// Calorimeter sensitive detector class
 ///
@@ -33,12 +36,28 @@ class PrtPixelSD : public G4VSensitiveDetector
     // methods from base class
     virtual void   Initialize(G4HCofThisEvent* hitCollection);
     virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory* history);
+    
+    
+    int whereIsthePoint(G4ThreeVector& pos_geo);
+    
     virtual void   EndOfEvent(G4HCofThisEvent* hitCollection);
+    
+    
+    
+    
+    
 
   private:
   G4int     fNofCells;
   G4double fQe_space[15][64];
   G4int fMultHit[15][64];
+  G4int counter;
+    
+
+    G4bool bool_time;
+
+    
+    
 };
 
 #endif
