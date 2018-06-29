@@ -190,43 +190,26 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     
     
     
-   
 
-    G4bool repeated = false;
-
-    if (bool_time) repeated = true;
-    
-    
-    if(Reflected) {bool_time = true;
-        
-    }else{
-        bool_time = false;
-    }
 
     
     
     counter++;
-    
-
-    if (counter % 2 == 0){
-        
-        counter2++;
-        std::cout<<"###### ####### ####### #########  ########### ####### ######### ######## ###### counter out : " << counter<<std::endl;
-        std::cout<<"###### ####### ####### #########  ########### ####### ######### ######## ###### counter in  : " << counter2<<std::endl;
-        std::cout<<"#########  ################# MCP: " << test_num1<<" pix: "<< test_num2<< " time = "<<time <<" Reflected: " <<Reflected<<std::endl;
-
-        bool_time = time;
-       PrtManager::Instance()->AddHit(hit);
+    if (Reflected){
+        if (counter % 2 == 0){
+            counter2++;
+            std::cout<<"###### ####### ####### #########  ########### ####### ######### ######## ###### counter out : " << counter<<std::endl;
+            std::cout<<"###### ####### ####### #########  ########### ####### ######### ######## ###### counter in  : " << counter2<<std::endl;
+            std::cout<<"#########  ################# MCP: " << test_num1<<" pix: "<< test_num2<< " time = "<<time <<" Reflected: " <<Reflected<<std::endl;
+            PrtManager::Instance()->AddHit(hit);
+        }
     }
     
     
-    
 
-    
     return true;
 }
 
-// http://www-geant4.kek.jp/lxr/source//processes/electromagnetic/dna/management/src/G4ITPathFinder.cc#L1186
 
 int PrtPixelSD::whereIsthePoint(G4ThreeVector& pos){
     G4ThreeVector null(0.,0.,0.);

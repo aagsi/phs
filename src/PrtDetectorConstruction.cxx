@@ -568,9 +568,23 @@ G4VPhysicalVolume* PrtDetectorConstruction::Construct(){
             
             
             
-            G4Box* gScan = new G4Box("gScan2",fBar[0]/2. ,fBar[1]/2., 0.00000001);// 0.00000001
+            G4Box* gScan = new G4Box("gScan2",10*fBar[0]/2. ,10*fBar[1]/2., 0.00000001);// 0.00000001
             lScan = new G4LogicalVolume(gScan, BarMaterial ,"lScan",0,0,0);
-            new G4PVPlacement(0,G4ThreeVector(0,0,fBar[2]/2.-PrtManager::Instance()->GetBeamZ()),lScan,"wScan",lBar,false,0);
+            new G4PVPlacement(0,G4ThreeVector(0,0,fBar[2]/2.-PrtManager::Instance()->GetBeamZ() + fLens[2] ),lScan,"wScan",lBar,false,0);
+        
+        
+        
+//        r2 = (r2==0)? 29.12: r2;
+//        G4double shight = 40;
+//        G4double bwidth = fLens[2]-lensMinThikness*2;
+//
+//        G4ThreeVector zTrans1(0, 0, -r1-fLens[2]/2.+r1-sqrt(r1*r1-shight/2.*shight/2.) +lensMinThikness);
+//        G4ThreeVector zTrans2(0, 0, -r2-fLens[2]/2.+r2-sqrt(r2*r2-shight/2.*shight/2.) +lensMinThikness*2);
+//
+//        G4Box* gfbox0 = new G4Box("Fbox0",0.5*fLens[0]+1,0.5*fLens[1]+1,0.5*fLens[2]);
+//        G4Tubs* gfbox = new G4Tubs("Fbox",0,0.5*fLens[0],0.5*fLens[2],0.*deg,360.*deg);
+//        G4Box* gfsbox = new G4Box("Fsbox",0.5*shight,0.5*fLens[1],0.5*fLens[2]);
+//        G4Tubs* gfstube = new G4Tubs("ftube",0,0.5*shight,0.5*fLens[2],0.*deg,360.*deg);
 
             
             // renamed from lscan to lscan2 used to determin the global position of the phase space at 90

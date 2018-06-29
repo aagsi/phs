@@ -22,7 +22,7 @@ TH1F*  hist_mcp = new TH1F("hist_mcp",";oix num;entries [#]",100 ,0,100);
 TGraph *graph_pos = new TGraph();
 TGraph *graph_dir = new TGraph();
 
-void drawHP(TString infile="../build/test2.root"){
+void drawHP(TString infile="../build/tes.root"){
     
     if(!prt_init(infile,1,"data/drawHPt")) return;
     PrtHit hit;
@@ -38,6 +38,9 @@ void drawHP(TString infile="../build/test2.root"){
             Int_t pixid = hit.GetPixelId()-1;
             Double_t time = hit.GetLeadTime();
             
+            
+            //if (mcpid != 6) continue;
+            //if (pixid != 63) continue;
             //Double_t time = hit.GetPosition().X(), ;
             
             Int_t ch = map_mpc[mcpid][pixid];

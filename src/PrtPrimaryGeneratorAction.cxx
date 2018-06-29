@@ -38,19 +38,28 @@ PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAc
     auto store = G4PhysicalVolumeStore::GetInstance();
     for (size_t i=0;i<store->size();i++){
         if((*store)[i]->GetName()=="wDirc")  vdirc =(*store)[i]->GetTranslation();
-        if((*store)[i]->GetName()=="wMcp")   vmcp[++mid] =(*store)[i]->GetTranslation();
-        if((*store)[i]->GetName()=="wPixel") vpix[++pid] =(*store)[i]->GetTranslation();
+        if((*store)[i]->GetName()=="wMcp") {  vmcp[(*store)[i]->GetCopyNo()  ] =(*store)[i]->GetTranslation();
+            std::cout<<"################## MCP GetCopyNo=  "<< (*store)[i]->GetCopyNo()<<std::endl; // here
+            }
+        if((*store)[i]->GetName()=="wPixel") {vpix[(*store)[i]->GetCopyNo() -1] =(*store)[i]->GetTranslation();
+            std::cout<<"############ Pix GetCopyNo=  "<< (*store)[i]->GetCopyNo() -1<<std::endl; // here
+            
+        }
     }
     //std::cout<<"############ m["<<mid<<"]" <<" pid = "<< pid<<std::endl; // here
     
-    for(auto m=0; m<=mid; m++){
-        for(auto p=0; p<=pid; p++){
+    for(auto m=0; m<12; m++){
+        for(auto p=0; p<64; p++){
             vpixminus[p]= G4ThreeVector(vpix[p].x(),vpix[p].y(), vpix[p].z()- 0.6);
             //vpixminus[p]= G4ThreeVector(vpix[p].x(),vpix[p].y(), vpix[p].z()- 0.6);
             //std::cout<<"###### m["<<m<<"]" <<" vpixminus[p] = "<< vpixminus[p]<<std::endl; // here
             gpix[m][p] =vdirc+(vmcp[m]+vpixminus[p]).rotateY(PrtManager::Instance()->GetAngle()*deg-180*deg);
         }
     }
+    
+    
+     ftest1 = PrtManager::Instance()->GetTest1();
+     ftest2 = PrtManager::Instance()->GetTest2();
 }
 PrtPrimaryGeneratorAction::~PrtPrimaryGeneratorAction(){
     delete fParticleGun;
@@ -58,8 +67,13 @@ PrtPrimaryGeneratorAction::~PrtPrimaryGeneratorAction(){
 }
 void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
     int counter3= 0 ;
-    for ( auto m=0 ; m<12 ; ++m ){
-        for ( auto p=0 ; p<64 ; ++p ){
+    
+    
+
+    
+    
+    for ( auto m=ftest1 ; m<ftest1+1 ; ++m ){ //12
+        for ( auto p=ftest2 ; p<ftest2+1 ; ++p ){//64
             //if (counter3 == 63) break;
             PrtManager::Instance()->AddEvent(PrtEvent());
             if(PrtManager::Instance()->GetRunType() == 0){ // Phs generation

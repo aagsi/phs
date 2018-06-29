@@ -51,6 +51,8 @@ private:
     
     G4ThreeVector gpix[12][64];
     
+    Int_t ftest1,  ftest2;
+    
     
     
 };
