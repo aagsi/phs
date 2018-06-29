@@ -22,7 +22,7 @@ TH1F*  hist_mcp = new TH1F("hist_mcp",";oix num;entries [#]",100 ,0,100);
 TGraph *graph_pos = new TGraph();
 TGraph *graph_dir = new TGraph();
 
-void drawHP(TString infile="../build/test1.root"){
+void drawHP(TString infile="../build/test2.root"){
     
     if(!prt_init(infile,1,"data/drawHPt")) return;
     PrtHit hit;
@@ -60,6 +60,7 @@ void drawHP(TString infile="../build/test1.root"){
             
             hist_xy->Fill(pos_y, pos_x);
             hist_z->Fill(pos_z);
+            
             
             //cout<< "dir_z "<<dir_z<<endl;
             //graph_pos->SetPoint(counter, pos_x, pos_y, pos_z);
