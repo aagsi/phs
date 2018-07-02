@@ -195,15 +195,15 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     
     
     counter++;
-    if (Reflected){
+    //if (Reflected){
         if (counter % 2 == 0){
             counter2++;
-            std::cout<<"###### ####### ####### #########  ########### ####### ######### ######## ###### counter out : " << counter<<std::endl;
-            std::cout<<"###### ####### ####### #########  ########### ####### ######### ######## ###### counter in  : " << counter2<<std::endl;
-            std::cout<<"#########  ################# MCP: " << test_num1<<" pix: "<< test_num2<< " time = "<<time <<" Reflected: " <<Reflected<<std::endl;
+            //std::cout<<"###### ####### ####### #########  ########### ####### ######### ######## ###### counter out : " << counter<<std::endl;
+            //std::cout<<"###### ####### ####### #########  ########### ####### ######### ######## ###### counter in  : " << counter2<<std::endl;
+            //std::cout<<"#########  ################# MCP: " << test_num1<<" pix: "<< test_num2<< " time = "<<time <<" Reflected: " <<Reflected<<std::endl;
             PrtManager::Instance()->AddHit(hit);
         }
-    }
+    //}
     
     
 

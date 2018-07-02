@@ -67,11 +67,7 @@ PrtPrimaryGeneratorAction::~PrtPrimaryGeneratorAction(){
 }
 void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
     int counter3= 0 ;
-    
-    
-
-    
-    
+    // could be improved by removing the for loop
     for ( auto m=ftest1 ; m<ftest1+1 ; ++m ){ //12
         for ( auto p=ftest2 ; p<ftest2+1 ; ++p ){//64
             //if (counter3 == 63) break;

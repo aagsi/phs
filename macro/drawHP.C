@@ -22,7 +22,7 @@ TH1F*  hist_mcp = new TH1F("hist_mcp",";oix num;entries [#]",100 ,0,100);
 TGraph *graph_pos = new TGraph();
 TGraph *graph_dir = new TGraph();
 
-void drawHP(TString infile="../build/tes.root"){
+void drawHP(TString infile="../build/phs_mcp_0_pix_24_all.root"){
     
     if(!prt_init(infile,1,"data/drawHPt")) return;
     PrtHit hit;
