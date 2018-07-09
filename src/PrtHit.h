@@ -26,6 +26,7 @@ public:
   Int_t GetParticleId()  { return fParticleId; }   
   Int_t GetParentParticleId()  { return fParentParticleId; }  
   Int_t GetNreflectionsInPrizm()  { return fNreflectionsInPrizm; }
+  Int_t GetNreflectionsInBar()  { return fNreflectionsInBar; } // here
   Double_t GetPathInPrizm()  { return fPathInPrizm; }
   TVector3 GetLocalPos()     { return fLocalPos; }
   TVector3 GetGlobalPos()     { return fGlobalPos; }
@@ -48,6 +49,8 @@ public:
   void SetParticleId(Int_t val)  { fParticleId = val; }   
   void SetParentParticleId(Int_t val)  { fParentParticleId = val; }  
   void SetNreflectionsInPrizm(Int_t val)  { fNreflectionsInPrizm = val; }
+  void SetNreflectionsInBar(Int_t val)  { fNreflectionsInBar = val; } // here
+    
   void SetPathInPrizm(Double_t val) { fPathInPrizm = val; }
   void SetLocalPos(TVector3 val)   { fLocalPos = val; }
   void SetGlobalPos(TVector3 val)  { fGlobalPos = val; }
@@ -72,6 +75,7 @@ protected:
   Int_t fParticleId; 
   Int_t fParentParticleId;
   Int_t fNreflectionsInPrizm;
+  Int_t fNreflectionsInBar; // here
   Double_t fPathInPrizm;
   TVector3 fLocalPos;
   TVector3 fGlobalPos;

@@ -5,6 +5,11 @@
 #include "../../prttools/prttools.C"
 
 #include "TGraph2D.h"
+#include "TRotation.h"
+#include "TMath.h"
+#include "TROOT.h"
+#include "TVector3.h"
+
 
 
 TH1F*  hist_time = new TH1F("hist_time",";measured time [ns];entries [#]",   500,0,50);
@@ -22,7 +27,17 @@ TH1F*  hist_mcp = new TH1F("hist_mcp",";oix num;entries [#]",100 ,0,100);
 TGraph *graph_pos = new TGraph();
 TGraph *graph_dir = new TGraph();
 
-void drawHP(TString infile="../build/phs_mcp_9_pix_0.root"){
+
+Double_t prtangle=90.0;
+Double_t tangle=0;
+Double_t tangle2=0;
+TVector3 momInBar(0,0,1);
+
+
+void drawHP(TString infile="../build/phs_space/phs_mcp_11_pix_59_all.root"){
+    momInBar.RotateY(TMath::Pi()-prtangle*(3.141592653589793238463/180.0));
+    momInBar.RotateX(0);
+
     
     if(!prt_init(infile,1,"data/drawHPt")) return;
     PrtHit hit;
@@ -57,14 +72,39 @@ void drawHP(TString infile="../build/phs_mcp_9_pix_0.root"){
             pos_z=hit.GetGlobalPos().Z();
             
             TVector3 direction = hit.GetMomentum().Unit();
+            TVector3 direction2;
             dir_x=direction.X();
             dir_y=direction.Y();
             dir_z=direction.Z();
             
+            
+            
+            
+            
+            
+            
+            
+            tangle = momInBar.Angle(direction);
+            if(time> 11 ) {
+                
+                direction2 = TVector3( -direction.X(), direction.Y(),direction.Z() );
+                tangle2 = momInBar.Angle(direction2);
+                
+                cout<< "@@@@@@@@@@@@@@@@@@  Reflected "<<"  time= "<<time <<"   tangle= "<<tangle2<<endl;
+                
+                
+            }
+            if(time< 11 ) cout<< "###############  NotReflected "<<"  time= "<<time <<"   tangle= "<<tangle<<endl;
+            
+            
+            
+            
+            
+            
+            
             hist_xy->Fill(pos_y, pos_x);
             hist_z->Fill(pos_z);
-            
-            
+
             //cout<< "dir_z "<<dir_z<<endl;
             //graph_pos->SetPoint(counter, pos_x, pos_y, pos_z);
             graph_pos->SetPoint(counter, pos_y, pos_x);

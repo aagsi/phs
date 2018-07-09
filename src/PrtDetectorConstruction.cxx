@@ -568,7 +568,7 @@ G4VPhysicalVolume* PrtDetectorConstruction::Construct(){
             
             
             
-            G4Box* gScan = new G4Box("gScan2",0.1*fBar[0]/2. ,0.1*fBar[1]/2., 0.00000001);// 0.00000001
+            G4Box* gScan = new G4Box("gScan2",fBar[0]/2. ,fBar[1]/2., 0.00000001);// 0.00000001
             lScan = new G4LogicalVolume(gScan, BarMaterial ,"lScan",0,0,0);
             new G4PVPlacement(0,G4ThreeVector(0,0,fBar[2]/2.-PrtManager::Instance()->GetBeamZ() + fLens[2] ),lScan,"wScan",lBar,false,0);
         

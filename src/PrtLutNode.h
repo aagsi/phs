@@ -43,6 +43,8 @@ public:
   Double_t GetPathId(Int_t entry){ return fPathIdArray[entry]; }
   Double_t GetWeight(Int_t entry){ return fWeightArray[entry]; }
   Int_t GetNRefl(Int_t entry){ return fNRefl[entry]; }
+
+    
   Double_t GetTime(Int_t entry){ return fTimeArray[entry]; }
   TVector3 GetHitPos(Int_t entry){ return fHitPos[entry]; }
   TVector3 GetDigiPos(){ return fDigiPos; }
@@ -59,6 +61,7 @@ protected:
   std::vector<Double_t> fPathIdArray;
   std::vector<Double_t> fWeightArray;
   std::vector<Int_t> fNRefl;
+  
   std::vector<Double_t> fTimeArray;
 
 protected: 

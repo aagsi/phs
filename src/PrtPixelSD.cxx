@@ -10,6 +10,7 @@
 #include "PrtEvent.h"
 #include "PrtPrizmHit.h"
 
+
 #include "PrtRunAction.h"
 #include "PrtManager.h"
 
@@ -47,19 +48,19 @@ PrtPixelSD::PrtPixelSD( const G4String& name, const G4String& hitsCollectionName
 }
 
 PrtPixelSD::~PrtPixelSD(){
-
+    
 }
 
 void PrtPixelSD::Initialize(G4HCofThisEvent* hce){
     
     memset(fMultHit, 0, sizeof(fMultHit[0][0])*960);
-
+    
 }
 
 G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     
     
-     G4int counter2 =0;
+    G4int counter2 =0;
     // // energy deposit
     // G4double edep = step->GetTotalEnergyDeposit();
     
@@ -72,7 +73,7 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     // if ( edep==0. && stepLength == 0. ) return false;
     
     if(step == 0) return false;
-
+    
     G4TouchableHistory* touchable = (G4TouchableHistory*)(step->GetPreStepPoint()->GetTouchable());
     G4Track* track = step->GetTrack();
     const G4DynamicParticle* dynParticle = track->GetDynamicParticle();
@@ -87,12 +88,12 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     G4ThreeVector globalvec = track->GetVertexMomentumDirection();
     G4ThreeVector localvec = touchable->GetHistory()->GetTopTransform().TransformAxis(globalvec);
     
-
+    
     TVector3 localPos(localpos.x(),localpos.y(),localpos.z());
-
+    
     translation=touchable->GetHistory()->GetTransform(1).TransformPoint(translation);
     TVector3 digiPos(translation.x(),translation.y(),translation.z());
-
+    
     G4ThreeVector pos_vertex = track->GetVertexPosition();
     G4ThreeVector lp = touchable->GetHistory()->GetTransform(1).TransformPoint(pos_vertex);
     TVector3 position(lp.x(),lp.y(),lp.z());
@@ -114,31 +115,26 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
             pathId += phit->GetNormalId()*1000*refl;
         }
     }
+    
+    ///////////////////
+    
 
     
     
     
     
-    G4double globalTime    = track->GetGlobalTime();
     
+    G4double globalTime    = track->GetGlobalTime();
     G4ThreeVector pp =G4ThreeVector(0,0,0.6).rotateY(PrtManager::Instance()->GetAngle()*CLHEP::deg-180*CLHEP::deg); // 0.6
     G4ThreeVector mm =G4ThreeVector(0,0,0.3).rotateY(PrtManager::Instance()->GetAngle()*CLHEP::deg-180*CLHEP::deg); // 0.3
     G4ThreeVector myPoint = G4ThreeVector (pos_vertex.x(), pos_vertex.y(), pos_vertex.z())+ pp;
     G4ThreeVector myPoint2 = G4ThreeVector (pos_vertex.x(), pos_vertex.y(), pos_vertex.z())+mm;
     
 
-
-
     int test_num1 = whereIsthePoint(myPoint);
     int test_num2 = whereIsthePoint(myPoint2);
     
-    
-    
-    
-    
-    
-    
-    
+
     G4double time = step->GetPreStepPoint()->GetLocalTime();
     G4ThreeVector mom_phs = step->GetPreStepPoint()->GetMomentum();
     TVector3 mom_phs_v(mom_phs.x(),mom_phs.y(),mom_phs.z());
@@ -146,17 +142,17 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     
     //TVector3 globalPos(globalPos.x(),globalPos.y(),globalPos.z());
     TVector3 globalPos(inPrismpos.x(),inPrismpos.y(),inPrismpos.z());
-
+    
     G4bool Reflected= true;
     if(mom_phs.x()> 0) Reflected = false;
     
-
+    
     
     //std::cout<<"#########  ################# MCP: " << test_num1<<" pix: "<< test_num2<< " time = "<<time <<" Reflected: " <<Reflected<<std::endl;
-
     
     
-
+    
+    
     PrtHit hit;
     //Int_t mcpid=touchable->GetReplicaNumber(1);
     //Int_t pixid = touchable->GetReplicaNumber(0);
@@ -176,6 +172,8 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     hit.SetParticleId(track->GetTrackID());
     hit.SetParentParticleId(track->GetParentID());
     hit.SetNreflectionsInPrizm(refl-1);
+    
+    
     hit.SetPathInPrizm(pathId);
     hit.SetCherenkovMC(PrtManager::Instance()->GetCurrentCherenkov());
     // time since track created
@@ -187,26 +185,20 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     hit.SetTotTime(wavelength); //set photon wavelength
     // time since event created
     // step->GetPreStepPoint()->GetGlobalTime()*1000
-    
-    
-    
 
-
-    
-    
     counter++;
     //if (Reflected){
-        if (counter % 2 == 0){
-            counter2++;
-            //std::cout<<"###### ####### ####### #########  ########### ####### ######### ######## ###### counter out : " << counter<<std::endl;
-            //std::cout<<"###### ####### ####### #########  ########### ####### ######### ######## ###### counter in  : " << counter2<<std::endl;
-            //std::cout<<"#########  ################# MCP: " << test_num1<<" pix: "<< test_num2<< " time = "<<time <<" Reflected: " <<Reflected<<std::endl;
-            PrtManager::Instance()->AddHit(hit);
-        }
+    if (counter % 2 == 0){
+        counter2++;
+         //std::cout<<"###### ####### ####### #########  ########### ####### ######### ######## ###### counter out : " << counter<<std::endl;
+         //std::cout<<"###### ####### ####### #########  ########### ####### ######### ######## ###### counter in  : " << counter2<<std::endl;
+         //std::cout<<"#########  ################# MCP: " << test_num1<<" pix: "<< test_num2<< " time = "<<time <<" Reflected: " <<Reflected<<std::endl;
+        PrtManager::Instance()->AddHit(hit);
+    }
     //}
     
     
-
+    
     return true;
 }
 
@@ -220,7 +212,7 @@ int PrtPixelSD::whereIsthePoint(G4ThreeVector& pos){
     theVolume=gNavigator->LocateGlobalPointAndSetup(pos,ptr,true);
     G4String theVolName = theVolume->GetName();
     int number = theVolume->GetCopyNo();
-
+    
     theVolume=gNavigator->LocateGlobalPointAndSetup(null,ptr,true);
     return number;
 }
