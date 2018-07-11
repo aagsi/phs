@@ -90,11 +90,11 @@ void drawHP(TString infile="../build/phs_space/phs_mcp_11_pix_59_all.root"){
                 direction2 = TVector3( -direction.X(), direction.Y(),direction.Z() );
                 tangle2 = momInBar.Angle(direction2);
                 
-                cout<< "@@@@@@@@@@@@@@@@@@  Reflected "<<"  time= "<<time <<"   tangle= "<<tangle2<<endl;
+                //cout<< "@@@@@@@@@@@@@@@@@@  Reflected "<<"  time= "<<time <<"   tangle= "<<tangle2<<endl;
                 
                 
             }
-            if(time< 11 ) cout<< "###############  NotReflected "<<"  time= "<<time <<"   tangle= "<<tangle<<endl;
+           // if(time< 11 ) cout<< "###############  NotReflected "<<"  time= "<<time <<"   tangle= "<<tangle<<endl;
             
             
             
@@ -119,6 +119,7 @@ void drawHP(TString infile="../build/phs_space/phs_mcp_11_pix_59_all.root"){
             hist_mcp->Fill(mcpid);
             
             ++counter;
+            cout<<"mcpid "<<mcpid<<" pixid "<<pixid<<endl;
             prt_hdigi[mcpid]->Fill(pixid%8, pixid/8);
         }
     }

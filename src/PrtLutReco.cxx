@@ -410,77 +410,7 @@ void PrtLutReco::Run(Int_t start, Int_t end){
       Bool_t isGoodHit(0);      
       Int_t size =fLutNode[sensorId]->Entries();
 
-      for(Int_t i=0; i<size; i++){
-	weight = 1; //fLutNode[sensorId]->GetWeight(i);
-	dird   = fLutNode[sensorId]->GetEntryCs(i,nedge); // nedge=0
-        //dird   = fLutNode[sensorId]->GetEntry(i);
-	evtime = fLutNode[sensorId]->GetTime(i);
-	Int_t pathid = fLutNode[sensorId]->GetPathId(i);
-	Bool_t samepath(false);
-	if(pathid==fHit.GetPathInPrizm()) samepath=true;
-	//if(fLutNode[sensorId]->GetNRefl(i)!=1 ) continue;
-	//if(pathid != 130000 && pathid != 199000) continue;
-	//std::cout<<"pathid "<< pathid <<std::endl;
-	//if(!samepath) continue;
-	
-	for(int u=0; u<4; u++){
-	  // if((pathid==190000 || pathid==210000) && u == 0) continue; //one from left-right
-	  // if((pathid==290000 || pathid==310000) && u == 0) continue; //two from left-right
-	  // if((pathid==130000 || pathid==199000) && u == 0) continue; //from up-bottom
-
-	  if(u == 0) dir = dird;
-	  if(u == 1) dir.SetXYZ( -dird.X(), dird.Y(), dird.Z());
-	  if(u == 2) dir.SetXYZ( dird.X(),-dird.Y(),  dird.Z()); //no need when no divergence in vertical plane
-	  if(u == 3) dir.SetXYZ( -dird.X(),-dird.Y(), dird.Z()); //no need when no divergence in vertical plane
-	  if(reflected) dir.SetXYZ( dir.X(), dir.Y(), -dir.Z());
-	  if(dir.Angle(fnX1) < criticalAngle || dir.Angle(fnY1) < criticalAngle) continue;
-
-	  luttheta = dir.Theta();  
-	  if(luttheta > TMath::PiOver2()) luttheta = TMath::Pi()-luttheta;
-
-	  bartime = fabs(lenz/cos(luttheta)/198.);
-	  double totaltime = bartime+evtime;
-	  double timediff = totaltime-hitTime;
-	  fHist0->Fill(totaltime-hitTime);
-	  if(samepath)  fHist0i->Fill(timediff);
-	  //	  fHist1->Fill(hitTime);
-	  fHist2->Fill(totaltime);
-
-	  if(fabs(timediff)>timeRes) continue;	  
-	  
-	  fHist3->Fill(fabs(totaltime),hitTime);
-	  tangle = momInBar.Angle(dir)-0.002;
-	  
-	  if(tangle > minChangle && tangle < maxChangle && tangle < 1.85){
-	    if(tofPid==211 && fMethod==2) fHistPi->Fill(tangle ,weight);
-	    else fHist->Fill(tangle ,weight);
-	    
-	    if(tofPid==2212) fHistMcp[mcpid]->Fill(tangle ,weight);
-	    fHistCh[ch]->Fill(tangle ,weight);
-	    
-	    if(true && tangle>0.4 && tangle<0.9 ){
-	      sum1 += TMath::Log(gF1->Eval(tangle)+noise);
-	      sum2 += TMath::Log(gF2->Eval(tangle)+noise);
-	    }
-	    
-	    // //if(samepath) fHist->Fill(tangle ,weight);
-	    if(fRadiator==1 && fabs(tangle-0.815)<0.05) isGoodHit=true;
-	    if(fRadiator==2 && fabs(tangle-0.815)<0.2)  isGoodHit=true;
-
-	    if(fVerbose==3){
-	      TVector3 rdir = TVector3(-dir.X(),dir.Y(),dir.Z());
-	      rdir.RotateUz(cz);	      
-	      Double_t phi = rdir.Phi();
-	      Double_t tt =  rdir.Theta();
-	      fHist4->Fill(tt*TMath::Sin(phi),tt*TMath::Cos(phi));
-
-	      //for cherenckov circle fit
-	      gg_gr.SetPoint(gg_i,tt*TMath::Sin(phi),tt*TMath::Cos(phi));
-	      gg_i++;
-	    }
-	  }
-	}
-      }
+      
 
       fHist1->Fill(hitTime);
       if(isGoodHit){

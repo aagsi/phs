@@ -72,7 +72,7 @@ void PrtPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent){
         for ( auto p=ftest2 ; p<ftest2+1 ; ++p ){//64
             //if (counter3 == 63) break;
             PrtManager::Instance()->AddEvent(PrtEvent());
-            if(PrtManager::Instance()->GetRunType() == 0){ // Phs generation  //1 lutformat // 0 event format
+            if(PrtManager::Instance()->GetRunType() == 1){ // Phs generation  //1 lutformat // 0 event format
                 ///////////////
                 // pos dir ////
                 ///////////////
