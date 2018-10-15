@@ -38,7 +38,7 @@ class PrtPixelSD : public G4VSensitiveDetector
     virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory* history);
     
     
-    int whereIsthePoint(G4ThreeVector& pos_geo);
+    int whereIsthePoint(G4ThreeVector& pos_geo);
     
     virtual void   EndOfEvent(G4HCofThisEvent* hitCollection);
     

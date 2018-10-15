@@ -131,8 +131,8 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     G4ThreeVector myPoint2 = G4ThreeVector (pos_vertex.x(), pos_vertex.y(), pos_vertex.z())+mm;
     
 
-    int test_num1 = whereIsthePoint(myPoint);
-    int test_num2 = whereIsthePoint(myPoint2);
+    int test_num1 = whereIsthePoint(myPoint);
+    int test_num2 = whereIsthePoint(myPoint2);
     
 
     G4double time = step->GetPreStepPoint()->GetLocalTime();
@@ -203,7 +203,7 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
 }
 
 
-int PrtPixelSD::whereIsthePoint(G4ThreeVector& pos){
+int PrtPixelSD::whereIsthePoint(G4ThreeVector& pos){
     G4ThreeVector null(0.,0.,0.);
     G4ThreeVector *ptr;
     ptr = &null;
