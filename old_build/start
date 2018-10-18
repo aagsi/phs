@@ -1,0 +1,6 @@
+
+source /cvmfs/fairroot.gsi.de/fairsoft/may18/bin/thisroot.sh
+
+source /lustre/nyx/panda/aali/prtdrc_2017/final_2017/workspace/install/multi_thread_geant4/install/bin/geant4.sh
+export LD_LIBRARY_PATH=/lustre/nyx/panda/aali/prtdrc_2017/final_2017/workspace/install/multi_thread_geant4/install/lib:$LD_LIBRARY_PATH
+export PATH=/lustre/nyx/panda/aali/prtdrc_2017/final_2017/workspace/install/multi_thread_geant4/install/bin:$PATH

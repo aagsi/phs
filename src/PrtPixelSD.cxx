@@ -160,7 +160,7 @@ G4bool PrtPixelSD::ProcessHits(G4Step* step, G4TouchableHistory* hist){
     Int_t mcpid=test_num2;
     Int_t pixid=test_num1;
     
-    
+    std::cout<<"#########  ################# MCP: " << mcpid<<" pix: "<< pixid<<std::endl;
     hit.SetMcpId(mcpid);
     hit.SetPixelId(pixid);
     hit.SetGlobalPos(globalPos);

@@ -1,0 +1,40 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/prtdirc.dir/PrtDirc.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtActionInitialization.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtAmbiguityInfo.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtBarHit.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtBarSD.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtCherenkovProcess.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtDetectorConstruction.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtDetectorConstructionMessenger.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtEvent.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtEventAction.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtHit.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtLutNode.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtLutReco.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtManager.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtOpBoundaryProcess.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtPhotonInfo.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtPhysicsList.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtPhysicsListMessenger.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtPixelSD.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtPrimaryGeneratorAction.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtPrimaryGeneratorMessenger.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtPrizmHit.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtPrizmSD.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtRunAction.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtStackingAction.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtSteppingAction.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtSteppingVerbose.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtTrackInfo.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtTrackingAction.cxx.o"
+  "CMakeFiles/prtdirc.dir/src/PrtTriggerSD.cxx.o"
+  "CMakeFiles/prtdirc.dir/PrtDict.cxx.o"
+  "prtdirc.pdb"
+  "prtdirc"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/prtdirc.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

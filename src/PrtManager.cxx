@@ -129,8 +129,10 @@ void PrtManager::AddHit(PrtHit hit){
     if(true){ //fMomentum.Angle(fnX1) > fCriticalAngle && fMomentum.Angle(fnY1) > fCriticalAngle
       Int_t id = 100*hit.GetMcpId() + hit.GetPixelId();
       Double_t time = hit.GetLeadTime();
-      if(fRunType==11) time -= fTime;      
-      ((PrtLutNode*)(fLut->At(id)))->AddEntry(id, fMomentum, hit.GetPathInPrizm(), hit.GetNreflectionsInPrizm(), time, hit.GetLocalPos(),hit.GetDigiPos());
+      if(fRunType==11) time -= fTime;
+        
+        TVector3 photon_direction = hit.GetMomentum();
+      ((PrtLutNode*)(fLut->At(id)))->AddEntry(id, photon_direction, hit.GetPathInPrizm(), hit.GetNreflectionsInPrizm(), time, hit.GetLocalPos(),hit.GetDigiPos());
     }
   }
 }

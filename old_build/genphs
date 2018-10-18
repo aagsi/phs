@@ -1,0 +1,26 @@
+#!/bin/bash
+# Task name
+#SBATCH -J phs_gen
+# Run time limit
+#SBATCH --time=8:00:00
+# Working directory on shared storage
+#SBATCH -D /lustre/nyx/panda/aali/phs/build/log
+# Standard and error output in different files
+#SBATCH -o %j_%N.out.log
+#SBATCH -e %j_%N.err.log
+# Execute application code
+
+source /cvmfs/fairroot.gsi.de/fairsoft/may18/bin/root/thisroot.sh
+source /lustre/nyx/panda/aali/prtdrc_2017/final_2017/workspace/install/multi_thread_geant4/install/bin/geant4.sh
+export LD_LIBRARY_PATH=/lustre/nyx/panda/aali/prtdrc_2017/final_2017/workspace/install/multi_thread_geant4/install/lib:$LD_LIBRARY_PATH
+export PATH=/lustre/nyx/panda/aali/prtdrc_2017/final_2017/workspace/install/multi_thread_geant4/install/bin:$PATH
+
+
+cd /lustre/nyx/panda/aali/phs/build
+
+mcp=$1
+pix=$2
+
+./prtdirc -o 100k_phs_mcp_${mcp}_pix_${pix}_all.root  -s 1 -a 90 -x "opticalphoton" -p "3.18 eV" -e 100000 -l 3 -h 1 -g 2017 -c 2017 -gsx 67 -gsy 14.7 -gx 85.0 -gz 447 -t1 $mcp -t2 $pix -b 1 -r 98455
+
+
