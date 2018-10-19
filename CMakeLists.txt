@@ -45,7 +45,7 @@ execute_process(COMMAND rootcint -f PrtDict.cxx -c ../src/PrtHit.h ../src/PrtEve
 #set(CMAKE_CXX_FLAGS "-std=gnu++11")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated")
 add_executable(prtdirc PrtDirc.cxx ${sources} PrtDict.cxx ${headers})
-target_link_libraries(prtdirc ${Geant4_LIBRARIES} ${ROOT_LIBRARIES} -lSpectrum -lHistPainter )
+target_link_libraries(prtdirc -lGLU ${Geant4_LIBRARIES} ${ROOT_LIBRARIES} -lSpectrum -lHistPainter )
 
 # add_library(prtdirclib SHARED ../src/PrtHit.cxx ../src/PrtEvent.cxx ../src/PrtLutNode.cxx ../src/PrtTrackInfo.cxx  ../src/PrtPhotonInfo.cxx ../src/PrtAmbiguityInfo.cxx PrtDict.cxx ../src/PrtHit.h ../src/PrtEvent.h ../src/PrtLutNode.h ../src/PrtTrackInfo.h  ../src/PrtPhotonInfo.h ../src/PrtAmbiguityInfo.h ../src/PrtLutReco.h ../src/PrtLutReco.cxx  ../src/PrtManager.h ../src/PrtManager.cxx )
 

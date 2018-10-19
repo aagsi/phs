@@ -36,6 +36,7 @@ PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAc
     int mid=-1, pid=-1;
     G4ThreeVector vdirc,vmcp[12],vpix[64];
     auto store = G4PhysicalVolumeStore::GetInstance();
+    std::cout<<"############ store->size() "<< store->size() <<std::endl; // here
     for (size_t i=0;i<store->size();i++){
         if((*store)[i]->GetName()=="wDirc")  vdirc =(*store)[i]->GetTranslation();
         if((*store)[i]->GetName()=="wMcp") {  vmcp[(*store)[i]->GetCopyNo()  ] =(*store)[i]->GetTranslation();
@@ -43,7 +44,6 @@ PrtPrimaryGeneratorAction::PrtPrimaryGeneratorAction():G4VUserPrimaryGeneratorAc
             }
         if((*store)[i]->GetName()=="wPixel") {vpix[(*store)[i]->GetCopyNo() -1] =(*store)[i]->GetTranslation();
             std::cout<<"############ Pix GetCopyNo=  "<< (*store)[i]->GetCopyNo() -1<<std::endl; // here
-            
         }
     }
     //std::cout<<"############ m["<<mid<<"]" <<" pid = "<< pid<<std::endl; // here

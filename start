@@ -1,0 +1,6 @@
+source /lustre/nyx/panda/aali/usr/local/root_build/bin/thisroot.sh
+source /lustre/nyx/panda/aali/usr/local/geant4_build/bin/geant4.sh
+export LD_LIBRARY_PATH=/lustre/nyx/panda/aali/usr/local/geant4_build/lib:$LD_LIBRARY_PATH
+export PATH=/lustre/nyx/panda/aali/usr/local/geant4_build/bin:$PATH
+export PATH=/lustre/nyx/panda/aali/usr/local/bin:$PATH
+export LD_LIBRARY_PATH=/lustre/nyx/panda/aali/usr/local/lib:$LD_LIBRARY_PATH
